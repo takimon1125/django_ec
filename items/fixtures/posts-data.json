@@ -25,5 +25,14 @@
             "price": 50,
             "image": "apple_g9ebko"
         }
+    },
+    {
+        "model": "items.items",
+        "pk": 4,
+        "fields": {
+            "title": "みかん",
+            "price": 300,
+            "image": "mikan_ejjxbk"
+        }
     }
 ]

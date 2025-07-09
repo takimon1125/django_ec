@@ -34,7 +34,7 @@
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {% for item in object_list %}
             <div class="col mb-5">
-                <a href="{% url 'items_detail' item.id %}" class="text-decoration-none text-body">
+                <a href="{% url 'items:detail' item.id %}" class="text-decoration-none text-body">
                     <div class="card h-100">
                         <!-- Product image-->
                         <img class="card-img-top" src="{{ item.image.url }}" alt="..." />

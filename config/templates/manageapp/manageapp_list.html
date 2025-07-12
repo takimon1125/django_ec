@@ -1,0 +1,37 @@
+{% extends "manageapp/base.html" %}
+{% load static %}
+{% block title %}EC 管理サイト{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <a class="btn btn-primary" href="{% url 'manageapp:manage_items_create' %}">新規作成</a>
+        <br>
+        <br>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                    <tr>
+                        <th scope="col">商品名</th>
+                        <th scope="col">値段</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.price }}円</td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'manageapp:manage_items_update' item.id %}">編集</a>
+                            <a class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#delete-Modal-{{ item.pk }}">削除</a>
+                            {% include "manageapp/manageapp_delete.html" %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'items',
+    'manageapp',
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -132,4 +134,8 @@ CLOUDINARY_STORAGE  = {
     'CLOUD_NAME': env('CLOUDINARY_NAME'),
     'API_KEY': env('CLOUDINARY_API_KEY'),
     'API_SECRET': env('CLOUDINARY_API_SECRET')
+}
+
+BASICAUTH_USERS = {
+    env('BASICAUTH_USER_NAME'): env('BASICAUTH_USER_PASSWORD')
 }

@@ -3,17 +3,10 @@ from django.views.generic import ListView, DetailView
 from .models import Items
 
 # Create your views here.
-class CommonCartCountViewMixin:
-    def get_context_data(self, **kwargs):
-        # ヘッダーにカートの数量を出す共通処理
-        context = super().get_context_data(**kwargs)
-        context["cart_count"] = len(self.request.session.get("cart_data", default = []))
-        return context
-
-class ItemsListView(CommonCartCountViewMixin, ListView):
+class ItemsListView(ListView):
     model = Items
 
-class ItemsDetailView(CommonCartCountViewMixin, DetailView):
+class ItemsDetailView(DetailView):
     model = Items
 
     def get_context_data(self, **kwargs):

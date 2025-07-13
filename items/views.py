@@ -22,8 +22,10 @@ def add_cart(request, item_id):
     if request.method == "POST":
         Item = Items.objects.get(pk=item_id)
         request.session["cart_data"] += [{
-            'item_title': Item.title ,
-            'amount': 1
+            'item_id': Item.id ,
+            'title': Item.title ,
+            'price': Item.price ,
+            'quantity': 1
         }]
     return redirect("items:list")
 
@@ -34,9 +36,11 @@ def detail_add_cart(request, item_id):
     # POSTでカートに追加の場合はSESSIONに追加
     if request.method == "POST":
         Item = Items.objects.get(pk=item_id)
-        quantity = request.POST.get("quantity", default=0)
+        quantity = int(request.POST.get("quantity", default=0) or 0)
         request.session["cart_data"] += [{
-            'item_title': Item.title ,
-            'amount': quantity
+            'item_id': Item.id ,
+            'title': Item.title ,
+            'price': Item.price ,
+            'quantity': quantity
         }]
     return redirect("items:list")

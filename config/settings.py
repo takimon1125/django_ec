@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'items',
     'manageapp',
     "widget_tweaks",
+    "checkout",
 ]
 
 MIDDLEWARE = [

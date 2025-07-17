@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
-from .models import Items
+from .models import Items, Carts, CartsItems
 
 # Create your views here.
 class ItemsListView(ListView):
@@ -15,32 +15,33 @@ class ItemsDetailView(DetailView):
         return context
 
 def add_cart(request, item_id):
-    # カートが存在したない場合は初期化
-    if "cart_data" not in request.session :
-        request.session["cart_data"] = []
-    # POSTでカートに追加の場合はSESSIONに追加
     if request.method == "POST":
-        Item = Items.objects.get(pk=item_id)
-        request.session["cart_data"] += [{
-            'item_id': Item.id ,
-            'title': Item.title ,
-            'price': Item.price ,
-            'quantity': 1
-        }]
+        # item_idからitemを取得
+        item = Items.objects.get(pk=item_id)
+        # カートIDがセッションにあればカートを取得。なければ新規に作成
+        cart = Carts.objects.get(pk=request.session["cart_id"])  if "cart_id" in request.session else Carts.objects.create()
+        # sessionにカートIDを入れる
+        request.session["cart_id"] = cart.id
+        # カートが存在する場合はカートIDに紐づくデータを更新
+        cart_item, created = CartsItems.objects.get_or_create(carts=cart, items=item, defaults={'quantity': 1})
+        if not created:
+            cart_item.quantity = cart_item.quantity + 1
+            cart_item.save()
     return redirect("items:list")
 
 def detail_add_cart(request, item_id):
-    # カートが存在したない場合は初期化
-    if "cart_data" not in request.session :
-        request.session["cart_data"] = []
-    # POSTでカートに追加の場合はSESSIONに追加
     if request.method == "POST":
-        Item = Items.objects.get(pk=item_id)
+        # item_idからitemを取得
+        item = Items.objects.get(pk=item_id)
+        # カートIDがセッションにあればカートを取得。なければ新規に作成
+        cart = Carts.objects.get(pk=request.session["cart_id"])  if "cart_id" in request.session else Carts.objects.create()
+        # sessionにカートIDを入れる
+        request.session["cart_id"] = cart.id
+        # 数量をpostから取得
         quantity = int(request.POST.get("quantity", default=0) or 0)
-        request.session["cart_data"] += [{
-            'item_id': Item.id ,
-            'title': Item.title ,
-            'price': Item.price ,
-            'quantity': quantity
-        }]
+        # カートが存在する場合はカートIDに紐づくデータを更新
+        cart_item, created = CartsItems.objects.get_or_create(carts=cart, items=item, defaults={'quantity': quantity})
+        if not created:
+            cart_item.quantity = cart_item.quantity + quantity
+            cart_item.save()
     return redirect("items:list")

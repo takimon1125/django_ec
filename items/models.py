@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class Items(models.Model):
@@ -12,3 +13,24 @@ class Items(models.Model):
 
     def __str__(self):
         return self.title
+
+class Carts(models.Model):
+    class Meta:
+        db_table = "cart"
+
+    created_at = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return self.id
+
+class CartsItems(models.Model):
+    class Meta:
+        db_table = "cart_item"
+
+    carts = models.ForeignKey(Carts, verbose_name="カート", on_delete=models.CASCADE)
+    items = models.ForeignKey(Items, verbose_name="商品", on_delete=models.CASCADE)
+    quantity = models.IntegerField(verbose_name="数量", blank=True)
+
+    def __str__(self):
+        return self.id
+

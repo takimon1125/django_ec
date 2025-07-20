@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
-from .models import Items, Carts, CartsItems
+from .models import Items, Carts, CartItems
 
 # Create your views here.
 class ItemsListView(ListView):
@@ -23,7 +23,7 @@ def add_cart(request, item_id):
         # sessionにカートIDを入れる
         request.session["cart_id"] = cart.id
         # カートが存在する場合はカートIDに紐づくデータを更新
-        cart_item, created = CartsItems.objects.get_or_create(carts=cart, items=item, defaults={'quantity': 1})
+        cart_item, created = CartItems.objects.get_or_create(cart=cart, item=item, defaults={'quantity': 1})
         if not created:
             cart_item.quantity = cart_item.quantity + 1
             cart_item.save()
@@ -40,7 +40,7 @@ def detail_add_cart(request, item_id):
         # 数量をpostから取得
         quantity = int(request.POST.get("quantity", default=0) or 0)
         # カートが存在する場合はカートIDに紐づくデータを更新
-        cart_item, created = CartsItems.objects.get_or_create(carts=cart, items=item, defaults={'quantity': quantity})
+        cart_item, created = CartItems.objects.get_or_create(cart=cart, item=item, defaults={'quantity': quantity})
         if not created:
             cart_item.quantity = cart_item.quantity + quantity
             cart_item.save()

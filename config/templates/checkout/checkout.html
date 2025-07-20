@@ -16,12 +16,12 @@
                     {% for cart in cart_list %}
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
-                            <h6 class="my-0">{{ cart.items.title }}</h6>
+                            <h6 class="my-0">{{ cart.item.title }}</h6>
                             <small class="text-body-secondary">数量: {{ cart.quantity }}</small>
                         </div>
                         <div>
-                            <span class="text-body-secondary">{{ cart.items.price }}円</span>
-                            <form action="{% url 'checkout:checkout_delete' cart.items.id %}" method="post">
+                            <span class="text-body-secondary">{{ cart.item.price }}円</span>
+                            <form action="{% url 'checkout:checkout_delete' cart.item.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">削除</button>
                             </form>

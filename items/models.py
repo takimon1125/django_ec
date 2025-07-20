@@ -4,7 +4,7 @@ from datetime import datetime
 # Create your models here.
 class Items(models.Model):
     class Meta:
-        db_table = "item"
+        db_table = "items"
 
     title = models.CharField(verbose_name="タイトル", max_length=255, blank=True)
     price = models.IntegerField(verbose_name="価格", blank=True)
@@ -16,19 +16,19 @@ class Items(models.Model):
 
 class Carts(models.Model):
     class Meta:
-        db_table = "cart"
+        db_table = "carts"
 
     created_at = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.id
 
-class CartsItems(models.Model):
+class CartItems(models.Model):
     class Meta:
-        db_table = "cart_item"
+        db_table = "cart_items"
 
-    carts = models.ForeignKey(Carts, verbose_name="カート", on_delete=models.CASCADE)
-    items = models.ForeignKey(Items, verbose_name="商品", on_delete=models.CASCADE)
+    cart = models.ForeignKey(Carts, verbose_name="カート", on_delete=models.CASCADE)
+    item = models.ForeignKey(Items, verbose_name="商品", on_delete=models.CASCADE)
     quantity = models.IntegerField(verbose_name="数量", blank=True)
 
     def __str__(self):

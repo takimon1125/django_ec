@@ -8,7 +8,7 @@ class CheckoutCreateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cart_items_list = CartItems.objects.filter(cart__id=self.request.session["cart_id"]) if "cart_id" in self.request.session else [] 
+        cart_items_list = CartItems.objects.filter(cart__id=self.request.session["cart_id"]).select_related("item") if "cart_id" in self.request.session else [] 
         context["cart_list"] = cart_items_list
         context["cart_sum_price"] = sum([cart.item.price * cart.quantity for cart in cart_items_list])
         return context

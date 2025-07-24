@@ -1,0 +1,78 @@
+{% extends "manageapp/base.html" %}
+{% load static widget_tweaks %}
+{% block title %}注文明細詳細画面 | EC 管理サイト{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row g-3">
+            <div class="mb-3">
+                <strong>ID:</strong> {{ object.id }}
+            </div>
+            <div class="mb-3">
+                <strong>名前:</strong> {{ object.lastaname }}{{ object.firstname }}
+            </div>
+            <div class="mb-3">
+                <strong>ユーザー名:</strong> @{{ object.username }}
+            </div>
+            <div class="mb-3">
+                <strong>Eメールアドレス:</strong> @{{ object.email }}
+            </div>
+            <div class="mb-3">
+                <strong>住所1 (番地・町):</strong> {{ object.address1 }}
+            </div>
+            <div class="mb-3">
+                <strong>住所2 (建物名・部屋番号):</strong> {{ object.address2 }}
+            </div>
+            <div class="mb-3">
+                <strong>国:</strong> {{ object.get_country_display }}
+            </div>
+            <div class="mb-3">
+                <strong>県:</strong> {{ object.get_state_display }}
+            </div>
+            <div class="mb-3">
+                <strong>郵便番号:</strong> {{ object.zip }}
+            </div>
+            <div class="mb-3">
+                <strong>カード名義:</strong> {{ object.card_name }}
+            </div>
+            <div class="mb-3">
+                <strong>カード番号:</strong> {{ object.card_number }}
+            </div>
+            <div class="mb-3">
+                <strong>カード有効期限:</strong> {{ object.card_expiration }}
+            </div>
+            <div class="mb-3">
+                <strong>カードCVV:</strong> {{ object.card_cvv }}
+            </div>
+            <div class="mb-3">
+                <strong>購入合計金額:</strong> {{ sum_price }}円
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                        <tr>
+                            <th scope="col">タイトル</th>
+                            <th scope="col">価格</th>
+                            <th scope="col">数量</th>
+                            <th scope="col">説明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in object_list %}
+                        <tr>
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.price }}円</td>
+                            <td>{{ item.quantity }}個</td>
+                            <td>{{ item.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <a class="btn btn-secondary" href="{% url 'manageapp:manage_checkout_list' %}">リストへ戻る</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

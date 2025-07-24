@@ -1,0 +1,36 @@
+{% extends "manageapp/base.html" %}
+{% load static %}
+{% block title %}注文明細リスト画面 | EC 管理サイト{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <br>
+        <br>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">名前</th>
+                        <th scope="col">購入日時</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkout in object_list %}
+                    <tr>
+                        <td>{{ checkout.id }}</td>
+                        <td>{{ checkout.lastname }}{{ checkout.firstname }}</td>
+                        <td>{{ checkout.created_at }}</td>
+                        <td>
+                            <a class="btn btn-primary"
+                                href="{% url 'manageapp:manage_checkout_detail' checkout.id %}">詳細</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

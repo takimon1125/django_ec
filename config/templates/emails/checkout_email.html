@@ -1,0 +1,57 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:" en-us" }}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ご購入明細</title>
+    </head>
+
+    <body>
+        <p>{{ checkout.lastaname }}{{ checkout.firstname }} 様</p>
+        <p>この度はご注文いただき、誠にありがとうございます。</p>
+        <p>ご注文内容は以下の通りです。</p>
+
+        <h2>ご注文情報</h2>
+        <ul>
+            <li><strong>注文ID:</strong> {{ checkout.id }}</li>
+            <li><strong>お名前:</strong> {{ checkout.lastaname }}{{ checkout.firstname }}</li>
+            <li><strong>ユーザー名:</strong> @{{ checkout.username }}</li>
+            <li><strong>Eメールアドレス:</strong> {{ checkout.email }}</li>
+            <li><strong>配送先住所:</strong></li>
+            <ul>
+                <li>{{ checkout.zip }}</li>
+                <li>{{ checkout.get_country_display }}{{ checkout.get_state_display }}{{ checkout.address1 }}
+                    {{ checkout.address2 }}</li>
+            </ul>
+            <li><strong>購入合計金額:</strong> {{ total_price }}円</li>
+        </ul>
+
+        <h2>商品詳細</h2>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>タイトル</th>
+                    <th>価格</th>
+                    <th>数量</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for checkout_item in checkout_item_list %}
+                <tr>
+                    <td>{{ checkout_item.title }}</td>
+                    <td>{{ checkout_item.price }}円</td>
+                    <td>{{ checkout_item.quantity }}個</td>
+                    <td>{{ checkout_item.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+        <p>よろしくお願いいたします。</p>
+    </body>
+
+</html>

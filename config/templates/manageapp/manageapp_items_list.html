@@ -1,6 +1,6 @@
 {% extends "manageapp/base.html" %}
 {% load static %}
-{% block title %}EC 管理サイト{% endblock %}
+{% block title %}商品管理EC | 管理サイト{% endblock %}
 {% block content %}
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
@@ -25,7 +25,7 @@
                             <a class="btn btn-primary" href="{% url 'manageapp:manage_items_update' item.id %}">編集</a>
                             <a class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#delete-Modal-{{ item.pk }}">削除</a>
-                            {% include "manageapp/manageapp_delete.html" %}
+                            {% include "manageapp/manageapp_items_delete.html" %}
                         </td>
                     </tr>
                     {% endfor %}

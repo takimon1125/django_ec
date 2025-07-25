@@ -1,0 +1,29 @@
+{{ checkout.lastaname }}{{ checkout.firstname }} 様
+
+この度はご注文いただき、誠にありがとうございます。
+ご注文内容は以下の通りです。
+
+----- ご注文情報 -----
+注文ID: {{ checkout.id }}
+お名前: {{ checkout.lastaname }}{{ checkout.firstname }}
+ユーザー名: @{{ checkout.username }}
+Eメールアドレス: {{ checkout.email }}
+
+配送先住所:
+{{ checkout.zip }}
+{{ checkout.get_country_display }}{{ checkout.get_state_display }}{{ checkout.address1 }}{{ checkout.address2 }}
+
+購入合計金額: {{ total_price }}円
+
+----- 商品詳細 -----
+{% for checkout_item in checkout_item_list %}
+タイトル: {{ checkout_item.title }}
+価格: {{ checkout_item.price }}円
+数量: {{ checkout_item.quantity }}個
+説明: {{ checkout_item.description }}
+--------------------
+{% endfor %}
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+よろしくお願いいたします。

@@ -25,6 +25,8 @@
                 <li>{{ checkout.get_country_display }}{{ checkout.get_state_display }}{{ checkout.address1 }}
                     {{ checkout.address2 }}</li>
             </ul>
+            <li><strong>プロモーションコード: {{ checkout.promotion_code }}</strong></li>
+            <li><strong>割引額: {{ checkout.discount_price }}円</strong></li>
             <li><strong>購入合計金額:</strong> {{ total_price }}円</li>
         </ul>
 

@@ -76,6 +76,9 @@ class Checkout(models.Model):
     card_expiration = models.CharField(verbose_name="有効期限", max_length=20)
     card_cvv = models.CharField(verbose_name="CVV", max_length=4)
 
+    promotion_code = models.CharField(verbose_name="プロモーションコード", max_length=7, blank=True)
+    discount_price = models.IntegerField(verbose_name="割引額", default=0, blank=True)
+
     created_at = models.DateTimeField(verbose_name="注文日時", auto_now_add=True)
 
     def __str__(self):

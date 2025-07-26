@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'manageapp',
     "widget_tweaks",
     "checkout",
+    "promotioncode",
 ]
 
 MIDDLEWARE = [

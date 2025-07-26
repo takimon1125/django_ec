@@ -50,5 +50,5 @@ class ManageCheckoutDetailView(DetailView):
         checkout_id = kwargs.get('object').id
         checkout_items = CheckoutItems.objects.filter(checkout=checkout_id)
         context["object_list"] = checkout_items
-        context["sum_price"] = sum([items.price * items.quantity for items in checkout_items])
+        context["total_price"] = max(sum([items.price * items.quantity for items in checkout_items]) - context["object"].discount_price, 0)
         return context

@@ -13,6 +13,8 @@ Eメールアドレス: {{ checkout.email }}
 {{ checkout.zip }}
 {{ checkout.get_country_display }}{{ checkout.get_state_display }}{{ checkout.address1 }}{{ checkout.address2 }}
 
+プロモーションコード: {{ checkout.promotion_code }}
+割引額: {{ checkout.discount_price }}円
 購入合計金額: {{ total_price }}円
 
 ----- 商品詳細 -----

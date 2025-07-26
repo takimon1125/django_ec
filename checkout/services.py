@@ -4,6 +4,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from items.models import CartItems
 from .models import CheckoutItems
+from promotioncode.services import PromotionCodeService
 
 
 class CheckoutService:
@@ -20,7 +21,7 @@ class CheckoutService:
             return [], "カートに商品がありません。カートに商品を追加してください。"
         
         return cart_items, None
-    
+
     @staticmethod
     def create_checkout_items(checkout, cart_items):
         checkout_items = []
@@ -37,6 +38,8 @@ class CheckoutService:
             )
             checkout_items.append(checkout_item)
             total_price += cart_item.item.price * cart_item.quantity
+        # プロモーションコード分を合計から値引き
+        total_price -= checkout.discount_price
         return checkout_items, total_price
     
     @staticmethod
@@ -46,11 +49,26 @@ class CheckoutService:
         if error_message:
             return None, None, error_message
         
+        # プロモーションコードがあるのかを確認
+        form_promotion_code = form.cleaned_data.get("promotion_code", None)
+        promotioncode = []
+        if form_promotion_code:
+            promotioncode, error_message = PromotionCodeService.validate_promotion_code(form_promotion_code)
+            if error_message:
+                return None, None, error_message
+        
         with transaction.atomic():
             # チェックアウトの作成
             checkout = form.save()
+            # プロモーションコードが存在するなら割引額もデータを挿入
+            if promotioncode:
+                checkout.discount_price = promotioncode.discount_price
+                checkout.save()
             # チェックアウトアイテムの作成
             checkout_items, total_price = CheckoutService.create_checkout_items(checkout, cart_items)
+            # プロモーションコードを使用済みにする
+            if promotioncode:
+                PromotionCodeService.used_promotion_code(promotioncode)
             # セッションからカートIDを削除
             if "cart_id" in session:
                 del session["cart_id"]
